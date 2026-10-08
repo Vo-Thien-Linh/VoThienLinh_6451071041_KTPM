@@ -30,3 +30,16 @@ class TestLoginUTC:
             "Trạng thái checkbox không thay đổi sau khi click!"
         )
 
+    @allure.story("Kiểm tra Validation")
+    @allure.title("TC03: Bấm Đăng nhập khi để trống cả 2 trường")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_tc03_login_empty_both_fields(self, driver):
+        """Hệ thống phải cảnh báo khi không nhập bất kỳ thông tin nào."""
+        login_page = LoginPage(driver).open()
+        login_page.click_login_button()
+
+        error_text = login_page.get_error_message()
+        assert "chưa nhập tên đăng nhập" in error_text.lower(), (
+            f"Thông báo lỗi không đúng: {error_text}"
+        )
+
