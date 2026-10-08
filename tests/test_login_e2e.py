@@ -135,3 +135,16 @@ class TestLoginUTC:
         assert login_page.is_captcha_displayed(), "Hình ảnh mã bảo mật Captcha không xuất hiện sau 3 lần sai!"
         assert login_page.is_captcha_input_displayed(), "Ô nhập mã bảo mật không hiển thị sau 3 lần sai!"
 
+    @allure.story("Kiểm tra Validation")
+    @allure.title("TC11: Nhập toàn ký tự khoảng trắng (Space)")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_tc11_login_with_only_whitespaces(self, driver):
+        """Phát hiện lỗi (Bug): Hệ thống không trim khoảng trắng."""
+        login_page = LoginPage(driver).open()
+        login_page.login(username="   ", password="   ")
+
+        error_text = login_page.get_error_message()
+        assert "chưa nhập tên đăng nhập" in error_text.lower(), (
+            f"LỖI (Bug): Hệ thống không tự trim khoảng trắng! Thông báo thực tế: '{error_text}'"
+        )
+
