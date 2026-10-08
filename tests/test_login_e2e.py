@@ -94,3 +94,17 @@ class TestLoginUTC:
         current_url = login_page.get_current_url()
         assert "getpass" in current_url.lower(), f"URL chuyển hướng sai: {current_url}"
 
+    @allure.story("Cổng xác thực SSO")
+    @allure.title("TC08: Kiểm tra điều hướng nút 'Đăng nhập bằng e-mail UTC'")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_tc08_click_sso_utc_email(self, driver):
+        """Kiểm tra chuyển hướng sang trang Google OAuth khi đăng nhập bằng mail trường."""
+        login_page = LoginPage(driver).open()
+        login_page.click_utc_email_sso()
+
+        login_page.wait_for_url_contains("accounts.google.com")
+        current_url = login_page.get_current_url()
+        assert "accounts.google.com" in current_url.lower(), (
+            f"Không chuyển sang trang SSO Google: {current_url}"
+        )
+
