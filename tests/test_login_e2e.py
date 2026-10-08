@@ -69,3 +69,16 @@ class TestLoginUTC:
             f"Thông báo lỗi không đúng: {error_text}"
         )
 
+    @allure.story("Xác thực thông tin")
+    @allure.title("TC06: Đăng nhập với tài khoản hoặc mật khẩu không chính xác")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_tc06_login_invalid_credentials(self, driver):
+        """Hệ thống từ chối đăng nhập với thông tin không đúng."""
+        login_page = LoginPage(driver).open()
+        login_page.login(username="sinhvien_utc_invalid", password="MatKhauSai@999")
+
+        error_text = login_page.get_error_message()
+        assert "tài khoản hoặc mật khẩu không đúng" in error_text.lower(), (
+            f"Thông báo lỗi không đúng: {error_text}"
+        )
+
