@@ -148,3 +148,12 @@ class TestLoginUTC:
             f"LỖI (Bug): Hệ thống không tự trim khoảng trắng! Thông báo thực tế: '{error_text}'"
         )
 
+    @allure.story("Phân tích giá trị biên (BVA)")
+    @allure.title("TC12: Kiểm tra nhập dữ liệu quá ngắn (1 ký tự)")
+    @allure.severity(allure.severity_level.MINOR)
+    def test_tc12_login_credentials_too_short(self, driver):
+        """Kiểm tra giá trị biên dưới, hệ thống phản hồi lỗi an toàn."""
+        login_page = LoginPage(driver).open()
+        login_page.login(username="a", password="1")
+        assert "tài khoản hoặc mật khẩu không đúng" in login_page.get_error_message().lower()
+
