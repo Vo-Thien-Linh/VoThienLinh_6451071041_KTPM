@@ -157,3 +157,14 @@ class TestLoginUTC:
         login_page.login(username="a", password="1")
         assert "tài khoản hoặc mật khẩu không đúng" in login_page.get_error_message().lower()
 
+    @allure.story("Kiểm thử độ dài / Stress input")
+    @allure.title("TC13: Kiểm tra nhập chuỗi cực dài (500 ký tự)")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_tc13_login_credentials_too_long(self, driver):
+        """Kiểm tra giới hạn buffer, hệ thống không bị crash lỗi 500."""
+        login_page = LoginPage(driver).open()
+        long_username = "user" * 125
+        long_password = "pass" * 125
+
+        login_page.login(username=long_username, password=long_password)
+        assert "tài khoản hoặc mật khẩu không đúng" in login_page.get_error_message().lower()
