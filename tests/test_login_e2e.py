@@ -56,3 +56,16 @@ class TestLoginUTC:
             f"Thông báo lỗi không đúng: {error_text}"
         )
 
+    @allure.story("Kiểm tra Validation")
+    @allure.title("TC05: Để trống Tên đăng nhập nhưng có nhập Mật khẩu")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_tc05_login_empty_username(self, driver):
+        """Hệ thống phải yêu cầu nhập tên đăng nhập khi chỉ có mật khẩu."""
+        login_page = LoginPage(driver).open()
+        login_page.login(username="", password="MatKhau123@")
+
+        error_text = login_page.get_error_message()
+        assert "chưa nhập tên đăng nhập" in error_text.lower(), (
+            f"Thông báo lỗi không đúng: {error_text}"
+        )
+
