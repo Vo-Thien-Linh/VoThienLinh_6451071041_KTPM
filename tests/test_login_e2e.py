@@ -122,3 +122,16 @@ class TestLoginUTC:
         login_page.wait_for_url_changes(login_page.URL)
         assert "/Login" not in login_page.get_current_url()
 
+    @allure.story("Cơ chế chống Brute-force")
+    @allure.title("TC10: Kích hoạt mã bảo mật (Captcha) khi nhập sai liên tiếp từ 3 lần")
+    @allure.severity(allure.severity_level.CRITICAL)
+    def test_tc10_captcha_on_multiple_failed_attempts(self, driver):
+        """Kiểm tra xuất hiện mã Captcha bảo vệ sau 3 lần đăng nhập sai."""
+        login_page = LoginPage(driver).open()
+
+        for i in range(3):
+            login_page.login(username="sinhvien_sai_tk", password=f"MatKhauSai@{i}")
+
+        assert login_page.is_captcha_displayed(), "Hình ảnh mã bảo mật Captcha không xuất hiện sau 3 lần sai!"
+        assert login_page.is_captcha_input_displayed(), "Ô nhập mã bảo mật không hiển thị sau 3 lần sai!"
+
