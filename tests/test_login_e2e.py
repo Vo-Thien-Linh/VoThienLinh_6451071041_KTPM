@@ -82,3 +82,15 @@ class TestLoginUTC:
             f"Thông báo lỗi không đúng: {error_text}"
         )
 
+    @allure.story("Điều hướng liên kết")
+    @allure.title("TC07: Kiểm tra liên kết 'Bạn quên mật khẩu đăng nhập ?'")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_tc07_navigate_to_forgot_password(self, driver):
+        """Kiểm tra điều hướng sang trang cấp lại mật khẩu (/Login/GetPass)."""
+        login_page = LoginPage(driver).open()
+        login_page.click_forgot_password()
+
+        login_page.wait_for_url_contains("GetPass")
+        current_url = login_page.get_current_url()
+        assert "getpass" in current_url.lower(), f"URL chuyển hướng sai: {current_url}"
+
