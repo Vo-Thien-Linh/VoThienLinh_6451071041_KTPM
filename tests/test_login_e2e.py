@@ -108,3 +108,17 @@ class TestLoginUTC:
             f"Không chuyển sang trang SSO Google: {current_url}"
         )
 
+    @pytest.mark.skip(reason="Cần cung cấp tài khoản và mật khẩu UTC thực tế để chạy case này")
+    @allure.story("Đăng nhập thành công")
+    @allure.title("TC09: Đăng nhập thành công với tài khoản hợp lệ (Happy Path)")
+    @allure.severity(allure.severity_level.BLOCKER)
+    def test_tc09_login_success(self, driver):
+        """Kiểm tra luồng đăng nhập chính xác đưa người dùng vào hệ thống."""
+        login_page = LoginPage(driver).open()
+        VALID_USER = "dien_tai_khoan_that_o_day"
+        VALID_PASS = "dien_mat_khau_that_o_day"
+
+        login_page.login(username=VALID_USER, password=VALID_PASS)
+        login_page.wait_for_url_changes(login_page.URL)
+        assert "/Login" not in login_page.get_current_url()
+
